@@ -7,16 +7,17 @@ const drivers = require('../../Drivers');
 //rider request
 router.post('/rider', (req, res) => {
     
-    riders.push(req.body);
+  riders.push(req.body);
   
-    res.json(riders);
-  });
+  //res.json(riders);
+});
 
-  router.post('/driver', (req, res) => {
+//driver request
+router.post('/driver', (req, res) => {
     
-    drivers.push(req.body);
+  drivers.push(req.body);
     
-    res.json(drivers);
-  });
+  //res.json(drivers);
+});
 
-  module.exports = router;
+module.exports = router;

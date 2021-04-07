@@ -1,74 +1,173 @@
-/*const express = require("express");
-const http = require('http');
-const socketio = require('socket.io');
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);*/
-
+const uuid = require('uuid');
 const
     io = require("socket.io-client"),
-    socket = io.connect("http://localhost:5000");
+    socket = io.connect("http://localhost:5000/communication");
 
 socket.on("matches", (matches) => {
     
-    console.log("Matches sent drom the swerver:");
-    /*
-        drivers.forEach(driver => {
-            var newDistance = linearDistance(parseFloat(rider.startingX), parseFloat(rider.startingY), parseFloat(driver.startingX), parseFloat(driver.startingY));
-      
-            if (newDistance<distance)
-            {
-              distance = newDistance;
-              matchedDriver = driver;
-              console.log("kut");
-            }
-          });
-      
-          var cost = distance*2;
-      
-          var match = {
-            "riderName" : rider.name,
-            "driverName" : matchedDriver.name,
-            "carNumber" : matchedDriver.carNumber,
-            "cost" : cost
-          };*/
-});
+    console.log("Matches sent from the server:");
+    console.log(matches);
 
-const http = require('http');
+    for(i=0; i<matches.length; i++)
+    {
+        const rating = JSON.stringify({
+            id: uuid.v4(),
+            rating: randomNumber(1)
+        });
 
-const data = JSON.stringify({
-    name: 'John Doe',
-    carNumber: '234',
-    startingX: '56',
-    startingY: "76"
-});
-
-const options = {
-    hostname: 'localhost',
-    port: '5000',
-    path: '/request/driver',
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': data.length
+        sendRating(rating);
     }
+    
+});
+
+const randomName = (length = 8) => {
+    // Declare all characters
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+    // Pick characers randomly
+    let str = '';
+    for (let i = 0; i < length; i++) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return str;
 };
 
+const randomCoordinates = (length = 4) => {
+    return Math.random().toString(10).substr(2, length);
+};
 
-const req = http.request(options, (res) => {
-    let data = '';
+const randomNumber = (length = 6) => {
+    return Math.random().toString(10).substr(2, length);
+};
 
-    res.on('data', (chunk) => {
-        data += chunk;
+var requestMaker = setInterval(function() {
+  
+    const driver = JSON.stringify({
+        name: randomName(),
+        carNumber: randomNumber(),
+        startingX: randomCoordinates(),
+        startingY: randomCoordinates()
     });
 
-    res.on('end', () => {
-        console.log(JSON.parse(data));
+    const rider = JSON.stringify({
+        name: randomName(),
+        startingX: randomCoordinates(),
+        startingY: randomCoordinates(),
+        destinationX: randomCoordinates(),
+        destinationY: randomCoordinates()
     });
 
-}).on("error", (err) => {
-    console.log("Error: ", err.message);
-});
+    //console.log(rider);
+    //console.log(driver);
 
-req.write(data);
-req.end();
+    sendRiderRequest(rider);
+    sendDriverRequest(driver);
+  
+  }, 1000);
+
+
+function sendRiderRequest(data)
+{
+    const http = require('http');
+
+    const options = {
+        hostname: 'localhost',
+        port: '5000',
+        path: '/request/rider',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+        }
+    };
+
+
+    const req = http.request(options, (res) => {
+        /*let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            console.log(JSON.parse(data));
+        });*/
+
+    }).on("error", (err) => {
+        console.log("Error: ", err.message);
+        });
+
+    req.write(data);
+    req.end();
+}
+
+function sendDriverRequest(data)
+{
+    const http = require('http');
+
+    const options = {
+        hostname: 'localhost',
+        port: '5000',
+        path: '/request/driver',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+        }
+    };
+
+
+    const req = http.request(options, (res) => {
+        /*let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            console.log(JSON.parse(data));
+        });*/
+
+    }).on("error", (err) => {
+        console.log("Error: ", err.message);
+        });
+
+    req.write(data);
+    req.end();
+}
+
+function sendRating(data)
+{
+    const http = require('http');
+
+    const options = {
+        hostname: 'localhost',
+        port: '5000',
+        path: '/rating',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+        }
+    };
+
+
+    const req = http.request(options, (res) => {
+        /*let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            console.log(JSON.parse(data));
+        });*/
+
+    }).on("error", (err) => {
+        console.log("Error: ", err.message);
+        });
+
+    req.write(data);
+    req.end();
+}
