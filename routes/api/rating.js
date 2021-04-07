@@ -1,12 +1,22 @@
 const express = require('express');
 const uuid = require('uuid');
 const router = express.Router();
-const ratings = require('../../Ratings');
+const Rating = require('../../models/Rating')
 
 //rider request
 router.post('/rating', (req, res) => {
     
-    ratings.push(req.body);
+    const rating = new Rating({
+        rating: req.body.rating
+    });
+
+    rating.save()
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((err) => {
+            console.log(err)
+        });
   
     //res.json(riders);
 });

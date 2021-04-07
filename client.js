@@ -3,6 +3,13 @@ const
     io = require("socket.io-client"),
     socket = io.connect("http://localhost:5000/communication");
 
+    /*
+socket.on("connection", () => {
+    
+    console.log("connected");
+    
+});*/
+
 socket.on("matches", (matches) => {
     
     console.log("Matches sent from the server:");

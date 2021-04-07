@@ -1,18 +1,24 @@
 const express = require('express');
+const mongoose = require('mongoose');
 //const math = require('math');
 const http = require('http');
 const path = require('path');
 const socketio = require('socket.io');
 const riders = require('./Riders');
 const drivers = require('./Drivers');
-const ratings = require('./Ratings');
 const matches = require('./Matches');
+const Rating = require('./models/Rating')
 //const logger = require('./middleware/logger');
 //const members = require('./Members');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
+const dbURL = 'mongodb+srv://admin:12345@yasindatabase.mbbh4.mongodb.net/DSLab?retryWrites=true&w=majority';
+mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) => console.log("connected to the database...."))
+  .catch((err) => console.log(err));
 
 // Init middleware
 // app.use(logger);
@@ -67,14 +73,16 @@ function runningFunction(socket)
     var data = matches;
     socket.emit('matches', data);
   
-    console.log(matches.length);
+    //console.log(matches.length);
     matches.length = 0;
     riders.length = 0;
     drivers.length = 0;
-
-
-    console.log(ratings);
   
+    /*Rating.find()
+      .then((result) => {
+        console.log(result);  
+      });*/
+
   }, 5000);
 }
 
