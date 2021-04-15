@@ -8,7 +8,7 @@ const Rating = require('./models/Rating')
 const app = express();
 const server = http.createServer(app);
 
-const dbURL = 'mongodb+srv://admin:12345@yasindatabase.mbbh4.mongodb.net/DSLab?retryWrites=true&w=majority';
+const dbURL = 'mongodb://localhost/mydb'; //'mongodb+srv://admin:12345@yasindatabase.mbbh4.mongodb.net/DSLab?retryWrites=true&w=majority';
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => console.log("connected to the database...."))
     .catch((err) => console.log(err));
