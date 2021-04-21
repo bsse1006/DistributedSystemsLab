@@ -1,10 +1,10 @@
 {
-  "name": "express_crash_course",
+  "name": "ds_client",
   "version": "1.0.0",
   "description": "",
-  "main": "RideService/rideService.js",
+  "main": "client.js",
   "scripts": {
-    "start": "node index",
+    "start": "node client.js",
     "dev": "nodemon rideService"
   },
   "keywords": [],

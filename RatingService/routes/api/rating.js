@@ -11,13 +11,13 @@ router.post('/rating', (req, res) => {
 
     console.log("Rating received from client and recorded");
 
-    rating.save()
+    /*rating.save()
         .then((result) => {
             res.send(result)
         })
         .catch((err) => {
             console.log(err)
-        });
+        });*/
   
     //res.json(riders);
 });
