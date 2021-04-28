@@ -8,8 +8,6 @@ RUN npm install
 
 COPY . .
 
-ENV PORT=7600
-
-EXPOSE 7600
+ENV PORT=7000
 
 CMD [ "npm", "start" ]

@@ -1,5 +1,5 @@
 {
-  "name": "RideService",
+  "name": "ride_service",
   "version": "1.0.0",
   "description": "",
   "main": "rideService.js",

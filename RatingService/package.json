@@ -1,5 +1,5 @@
 {
-  "name": "RatingService",
+  "name": "rating_service",
   "version": "1.0.0",
   "description": "",
   "main": "ratingService.js",

@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const
     io = require("socket.io-client"),
-    socket = io.connect("http://localhost:7700/communication");
+    socket = io.connect("http://localhost:7000/communication");
 
 socket.on("matches", (matches) => {
     
@@ -73,7 +73,7 @@ function sendRiderRequest(data)
 
     const options = {
         hostname: 'localhost',
-        port: '6500',
+        port: '8080',
         path: '/request/rider',
         method: 'POST',
         headers: {
@@ -108,7 +108,7 @@ function sendDriverRequest(data)
 
     const options = {
         hostname: 'localhost',
-        port: '6500',
+        port: '8080',
         path: '/request/driver',
         method: 'POST',
         headers: {
@@ -143,7 +143,7 @@ function sendRating(data)
 
     const options = {
         hostname: 'localhost',
-        port: '6500',
+        port: '8080',
         path: '/rating',
         method: 'POST',
         headers: {

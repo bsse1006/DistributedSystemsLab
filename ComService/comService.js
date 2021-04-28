@@ -17,7 +17,7 @@ function runningFunction(socket)
   var matcher = setInterval(function() {
     
     //console.log(matches);
-    if (matches.length==5)
+    if (matches.length>=5)
     {
         const data = matches;
         socket.emit('matches', data);
@@ -38,6 +38,6 @@ io.of('communication').on('connection', socket => {
   
 });
 
-const PORT = process.env.PORT || 7700;
+const PORT = process.env.PORT || 7000;
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

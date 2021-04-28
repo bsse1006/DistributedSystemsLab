@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+
+    ratingService:
+        #build: ./RatingService/
+        image: yasinsazid/dslab:rating1.0
+        restart: always
+        depends_on: 
+            - mongodb
+
+    communicationService:
+        #build: ./CommunicationService/
+        image: yasinsazid/dslab:com1.0
+        ports: 
+            - 7000:7000
+        restart: always
+    
+    rideService:
+        #build: ./RideSharingService/
+        image: yasinsazid/dslab:ride1.0
+        restart: always
+        depends_on: 
+            - communicationService
+
+    nginx:
+        #build: ./nginx/
+        image: yasinsazid/dslab:nginx1.0
+        ports: 
+            - 8080:80
+        depends_on: 
+            - ratingService
+            - rideService
+
+    mongodb:
+        image: mongo
+        ports: 
+            - 27017:27017
+        volumes:
+            - mongodb_data_container:/data/db
+    
+volumes:
+    mongodb_data_container:
