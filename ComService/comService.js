@@ -38,6 +38,6 @@ io.of('communication').on('connection', socket => {
   
 });
 
-const PORT = process.env.PORT || 7015;
+const PORT = process.env.PORT || 7000;
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
