@@ -95,7 +95,7 @@ function sendMatches(data)
 
     const options = {
         hostname: `communicationService${server_location}`,
-        port: '7000',
+        port: '7015',
         path: '/sendMatch',
         method: 'POST',
         headers: {
@@ -126,6 +126,6 @@ function sendMatches(data)
 
 runningFunction();
 
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.PORT || 7010;
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

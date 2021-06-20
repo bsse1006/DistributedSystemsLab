@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const path = require('path');
-const Rating = require('./models/Rating')
+const Rating = require('./models/Rating');
 
 
 const app = express();
@@ -18,6 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('', require('./routes/api/rating'));
 
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.PORT || 7005;
 
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

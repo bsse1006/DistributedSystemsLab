@@ -4,7 +4,7 @@ let server_location = 'dhaka';
 
 const
     io = require("socket.io-client"),
-    socket = io.connect(`http://communication.${server_location}.com:7000/communication`);
+    socket = io.connect(`http://communication.${server_location}.com:7015/communication`);
 
 socket.on("matches", (matches) => {
     
