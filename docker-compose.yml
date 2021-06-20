@@ -1,5 +1,11 @@
 version: '3'
 
+networks:
+    bdnet:
+      ipam:
+        config:
+          - subnet: 10.100.0.0/24
+
 services:
 
     ratingService:
@@ -8,29 +14,85 @@ services:
         restart: always
         depends_on: 
             - mongodb
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.4
 
-    communicationService:
+    communicationServiceDhaka:
         #build: ./CommunicationService/
         image: yasinsazid/dslab:com1.0
-        ports: 
-            - 7000:7000
+        #ports: 
+        #    - 7001:7001
         restart: always
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.11
     
-    rideService:
+    rideServiceDhaka:
         #build: ./RideSharingService/
         image: yasinsazid/dslab:ride1.0
         restart: always
         depends_on: 
-            - communicationService
+            - communicationServiceDhaka
+        environment: 
+            - SERVERLOCATION=Dhaka
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.12
 
-    nginx:
+    nginxDhaka:
         #build: ./nginx/
         image: yasinsazid/dslab:nginx1.0
-        ports: 
-            - 8080:80
+        #ports: 
+        #    - 8080:80
         depends_on: 
             - ratingService
-            - rideService
+            - rideServiceDhaka
+        environment: 
+            - API_V1=rideServiceDhaka
+            - API_V2=ratingService
+        command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'" 
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.10
+
+    communicationServiceCtg:
+        #build: ./CommunicationService/
+        image: yasinsazid/dslab:com1.0
+        #ports: 
+        #    - 7001:7001
+        restart: always
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.21
+    
+    rideServiceCtg:
+        #build: ./RideSharingService/
+        image: yasinsazid/dslab:ride1.0
+        restart: always
+        depends_on: 
+            - communicationServiceCtg
+        environment: 
+            - SERVERLOCATION=Ctg
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.22
+
+    nginxCtg:
+        #build: ./nginx/
+        image: yasinsazid/dslab:nginx1.0
+        #ports: 
+        #    - 8080:80
+        depends_on: 
+            - ratingService
+            - rideServiceCtg
+        environment: 
+            - API_V1=rideServiceCtg
+            - API_V2=ratingService
+        command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'" 
+        networks:
+            bdnet:
+                ipv4_address: 10.100.0.20
 
     mongodb:
         image: mongo

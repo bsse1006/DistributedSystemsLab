@@ -9,6 +9,8 @@ const matches = require('./Matches');
 const app = express();
 const server = http.createServer(app);
 
+let server_location = process.env.SERVERLOCATION;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -92,7 +94,7 @@ function sendMatches(data)
     const http = require('http');
 
     const options = {
-        hostname: 'communicationService',
+        hostname: `communicationService${server_location}`,
         port: '7000',
         path: '/sendMatch',
         method: 'POST',
